@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s 
+
+scrape_configs:
+  - job_name: 'prometheus'
+
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          _id: test
+
+remote_write:
+  - url: "http://127.0.0.1:9103/metrics/v1/receive"
+    authorization:
+      type: Bearer
+      credentials: eyJhdXRob3JpemF0aW9uX3Rva2VuIjoiYSIsImNsdXN0ZXJfaWQiOiJ0ZXN0In0=
+    metadata_config:
+      send: true
+# To generate credentials echo -n '{"authorization_token":"a","cluster_id":"test"}' | base64 -w 0
